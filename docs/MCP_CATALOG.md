@@ -89,6 +89,6 @@ export CNIPA_API_KEY=<key>
 
 1. 在 `mcp-servers/<name>/` 下建目录
 2. 写 `server.py`（参考 wenshu）
-3. 在 `.claude/mcp.json` 中注册
+3. 在 `.mcp.json` 中注册
 4. 在 `mcp-servers/README.md` 与本目录登记
 5. 在相关 agent 的 `tools:` 中添加 `mcp__<name>__*`

@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "statutes-rag": {
+      "command": "python",
+      "args": ["mcp-servers/statutes-rag/server.py"],
+      "env": {
+        "STATUTES_DIR": "./mcp-servers/statutes-rag/statutes",
+        "INDEX_DIR": "./mcp-servers/statutes-rag/index"
+      }
+    },
+    "wenshu": {
+      "command": "python",
+      "args": ["mcp-servers/wenshu/server.py"],
+      "env": {
+        "WENSHU_MODE": "stub"
+      }
+    },
+    "samr": {
+      "command": "python",
+      "args": ["mcp-servers/samr/server.py"],
+      "env": {
+        "SAMR_MODE": "stub"
+      }
+    },
+    "cnipa": {
+      "command": "python",
+      "args": ["mcp-servers/cnipa/server.py"],
+      "env": {
+        "CNIPA_MODE": "stub"
+      }
+    }
+  }
+}

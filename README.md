@@ -29,9 +29,15 @@
 ```bash
 git clone https://github.com/huodebing-alt/agentic-china-lawyer.git
 cd agentic-china-lawyer
+pip install -r requirements.txt    # 装 fastmcp + doc-ops 依赖
 bash scripts/prepare-statutes.sh   # 首次：从官方源下载法规库（约 1-2 分钟）
+bash scripts/test-mcp.sh           # 验证 4 个 MCP server 启动正常（可选但推荐）
 claude                              # 当前推荐 runner：Claude Code
 ```
+
+> **首次启动 `claude` 时会提示 trust 项目里的 `.mcp.json`** — 选 yes 即可注册
+> 4 个本项目自带的 MCP server（`statutes-rag` / `wenshu` / `samr` / `cnipa`）。
+> 这是 Claude Code 的安全机制，对每个项目只问一次。
 
 > ⚠️ 本项目不分发任何法规原文。`prepare-statutes.sh` 从全国人大官方法律法规数据库
 > (flk.npc.gov.cn) 等下载并落地为 markdown，由 `statutes-rag` MCP 检索。
@@ -56,7 +62,7 @@ claude                              # 当前推荐 runner：Claude Code
 
 | Runner | 状态 | 说明 |
 | --- | --- | --- |
-| **Claude Code** | ✅ 当前默认 | 现成跑通，无需配置。读 `.claude/` 目录 + `.claude/mcp.json` |
+| **Claude Code** | ✅ 当前默认 | 现成跑通，无需配置。读 `.claude/` 目录 + `.mcp.json` |
 | **Claude API + 自研 runner** | 🟡 文档支持 | Agent / Skill 是纯 markdown，写 100 行 runner 即可调用 Claude API 跑 |
 | **OpenAI Codex / GPT API** | 🟡 路线图 | 提供 `runners/openai/` 适配层（agent 提示词 → Responses API + function calling） |
 | **Gemini / Vertex AI** | 🟡 路线图 | 提供 `runners/gemini/` 适配层 |

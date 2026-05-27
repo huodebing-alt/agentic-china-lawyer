@@ -1,55 +1,5 @@
 {
-  "$schema": "https://docs.claude.com/schemas/mcp.json",
-  "mcpServers": {
-    "statutes-rag": {
-      "command": "python",
-      "args": ["mcp-servers/statutes-rag/server.py"],
-      "cwd": "${workspaceRoot}",
-      "env": {
-        "STATUTES_DIR": "${workspaceRoot}/mcp-servers/statutes-rag/statutes",
-        "INDEX_DIR": "${workspaceRoot}/mcp-servers/statutes-rag/index"
-      },
-      "description": "本地中国法规 RAG：民法典 / 公司法 / 劳动合同法 / PIPL / 反垄断法 / 等"
-    },
-    "wenshu": {
-      "command": "python",
-      "args": ["mcp-servers/wenshu/server.py"],
-      "cwd": "${workspaceRoot}",
-      "env": {
-        "WENSHU_MODE": "stub",
-        "WENSHU_API_KEY": "${WENSHU_API_KEY:-}",
-        "WENSHU_PRIVATE_ENDPOINT": "${WENSHU_PRIVATE_ENDPOINT:-}"
-      },
-      "description": "裁判文书网检索（公开版 stub；可切换私有/付费数据库）"
-    },
-    "samr": {
-      "command": "python",
-      "args": ["mcp-servers/samr/server.py"],
-      "cwd": "${workspaceRoot}",
-      "env": {
-        "SAMR_MODE": "stub",
-        "QICHACHA_API_KEY": "${QICHACHA_API_KEY:-}",
-        "TIANYANCHA_API_KEY": "${TIANYANCHA_API_KEY:-}"
-      },
-      "description": "国家市场监督管理总局 / 工商企业信用信息查询（公开版 stub；可接企查查 / 天眼查）"
-    },
-    "cnipa": {
-      "command": "python",
-      "args": ["mcp-servers/cnipa/server.py"],
-      "cwd": "${workspaceRoot}",
-      "env": {
-        "CNIPA_MODE": "stub",
-        "CNIPA_API_KEY": "${CNIPA_API_KEY:-}"
-      },
-      "description": "国家知识产权局 — 商标 / 专利检索（公开版 stub）"
-    }
-  },
-  "registryHints": {
-    "preferredOrder": ["statutes-rag", "wenshu", "samr", "cnipa"],
-    "fallbackBehavior": "warn-and-disclaimer",
-    "notes": [
-      "公开 API 受限时使用 stub，并在输出中明确告知用户。",
-      "切换到私有 API 后，将对应 *_MODE 环境变量改为 'live'。"
-    ]
-  }
+  "_DEPRECATED": true,
+  "_note": "Claude Code 当前项目级 MCP 配置标准路径已迁移到 项目根 /.mcp.json。本文件仅保留作为历史记录，可安全删除。",
+  "_canonical": "../.mcp.json"
 }

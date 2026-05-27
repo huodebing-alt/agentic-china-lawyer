@@ -1,8 +1,5 @@
 """
-wenshu MCP server.
-
-公开版默认为 stub（裁判文书网公开 API 受限）。
-切换私有 / 付费数据库时设置 WENSHU_MODE=live + 配置 WENSHU_API_KEY / WENSHU_PRIVATE_ENDPOINT。
+wenshu MCP server (stub-by-default).
 """
 from __future__ import annotations
 import os
@@ -10,8 +7,10 @@ from typing import List, Dict, Any
 
 try:
     from fastmcp import FastMCP
+    FASTMCP_OK = True
 except ImportError:
     FastMCP = None  # type: ignore
+    FASTMCP_OK = False
 
 MODE = os.environ.get("WENSHU_MODE", "stub")
 API_KEY = os.environ.get("WENSHU_API_KEY", "")
@@ -35,23 +34,41 @@ def _stub_search(query: str, court: str = "", year: str = "", limit: int = 5) ->
     ]
 
 
-if FastMCP is not None:
+def search(query: str = "合同纠纷", court: str = "", year: str = "", limit: int = 5) -> Dict[str, Any]:
+    """裁判文书网检索。"""
+    if MODE == "stub":
+        return {
+            "mode": "stub",
+            "warning": "⚠️ 公开 API 受限，以下案例为示意。请通过付费数据库验证。",
+            "results": _stub_search(query, court, year, limit),
+        }
+    raise NotImplementedError("live mode 尚未实现，请配置私有 API 或使用 stub 模式")
+
+
+mcp = None
+if FASTMCP_OK:
     mcp = FastMCP("wenshu")
+    mcp.tool()(search)
 
-    @mcp.tool()
-    def search(query: str, court: str = "", year: str = "", limit: int = 5) -> Dict[str, Any]:
-        """裁判文书网检索。"""
-        if MODE == "stub":
-            return {
-                "mode": "stub",
-                "warning": "⚠️ 公开 API 受限，以下案例为示意。请通过付费数据库验证。",
-                "results": _stub_search(query, court, year, limit),
-            }
-        # TODO: live 模式接入
-        raise NotImplementedError("live mode 尚未实现，请配置私有 API 或使用 stub 模式")
 
-    if __name__ == "__main__":
+def _main():
+    import sys, os
+    here = os.path.dirname(os.path.abspath(__file__))
+    common = os.path.normpath(os.path.join(here, "..", "_common"))
+    if "--selftest" in sys.argv:
+        sys.path.insert(0, os.path.dirname(common))
+        try:
+            from _common.selftest import run_selftest
+        except ImportError:
+            sys.path.insert(0, common)
+            from selftest import run_selftest
+        sys.exit(run_selftest(sys.modules[__name__], expected=["search"]))
+    if FASTMCP_OK and mcp is not None:
         mcp.run()
-else:
-    if __name__ == "__main__":
-        print("fastmcp not installed")
+    else:
+        print("fastmcp not installed; pip install fastmcp", file=sys.stderr)
+        sys.exit(2)
+
+
+if __name__ == "__main__":
+    _main()

@@ -38,4 +38,4 @@ trigger_phrases:
 
 裁判文书网公开 API 限制较多，本项目默认使用 stub 数据。**律师请通过付费数据库**（北大法宝 / 威科先行 / 无讼）二次验证再引用。
 
-切换私有 API：在 `.claude/mcp.json` 中将 `WENSHU_MODE=stub` 改为 `live` 并配置 `WENSHU_API_KEY`。
+切换私有 API：在 `.mcp.json` 中将 `WENSHU_MODE=stub` 改为 `live` 并配置 `WENSHU_API_KEY`。

@@ -6,7 +6,7 @@
 >
 > - `agents.yaml` — agent 清单（统一格式，跨 runner）
 > - `skills.yaml` — skill 清单
-> - `mcp.json` — MCP 配置（与 `.claude/mcp.json` 同结构，可符号链接）
+> - `mcp.json` — MCP 配置（与 `.mcp.json` 同结构，可符号链接）
 > - `prompts/` — agent / skill 的 markdown 提示词（与 `.claude/agents/`、`.claude/skills/` 同源）
 >
 > 以及对应的 runner 适配层：

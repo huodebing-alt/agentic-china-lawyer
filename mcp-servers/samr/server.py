@@ -1,6 +1,5 @@
 """
-samr MCP server: 工商企业信息查询。
-公开版 stub；私有版可接企查查 / 天眼查 API。
+samr MCP server (stub-by-default).
 """
 from __future__ import annotations
 import os
@@ -8,12 +7,12 @@ from typing import Dict, Any, List
 
 try:
     from fastmcp import FastMCP
+    FASTMCP_OK = True
 except ImportError:
     FastMCP = None  # type: ignore
+    FASTMCP_OK = False
 
 MODE = os.environ.get("SAMR_MODE", "stub")
-QICHACHA_API_KEY = os.environ.get("QICHACHA_API_KEY", "")
-TIANYANCHA_API_KEY = os.environ.get("TIANYANCHA_API_KEY", "")
 
 
 def _stub_company(name: str) -> Dict[str, Any]:
@@ -37,38 +36,58 @@ def _stub_company(name: str) -> Dict[str, Any]:
     }
 
 
-if FastMCP is not None:
-    mcp = FastMCP("samr")
-
-    @mcp.tool()
-    def search(company_name: str = "", uscc: str = "") -> Dict[str, Any]:
-        """按公司名称或统一社会信用代码查询。"""
-        if MODE == "stub":
-            return {
-                "mode": "stub",
-                "warning": "⚠️ 公开 stub 数据，请通过 SAMR 官网 / 企查查 / 天眼查核实。",
-                "data": _stub_company(company_name or uscc or "未指定公司"),
-            }
-        raise NotImplementedError("live mode 尚未实现")
-
-    @mcp.tool()
-    def equity_penetration(company_name: str, depth: int = 3) -> Dict[str, Any]:
-        """股权穿透查询（最多 3 层）。"""
+def search(company_name: str = "未指定公司", uscc: str = "") -> Dict[str, Any]:
+    """按公司名称或统一社会信用代码查询。"""
+    if MODE == "stub":
         return {
-            "mode": MODE,
-            "warning": "⚠️ stub 数据" if MODE == "stub" else "",
-            "tree": {
-                "name": company_name,
-                "children": [
-                    {"name": "（stub）控股股东", "ratio": "70%", "children": []},
-                    {"name": "（stub）员工持股平台", "ratio": "20%", "children": []},
-                    {"name": "（stub）其他", "ratio": "10%", "children": []},
-                ],
-            },
+            "mode": "stub",
+            "warning": "⚠️ 公开 stub 数据，请通过 SAMR 官网 / 企查查 / 天眼查核实。",
+            "data": _stub_company(company_name or uscc or "未指定公司"),
         }
+    raise NotImplementedError("live mode 尚未实现")
 
-    if __name__ == "__main__":
+
+def equity_penetration(company_name: str = "未指定公司", depth: int = 3) -> Dict[str, Any]:
+    """股权穿透查询（最多 3 层）。"""
+    return {
+        "mode": MODE,
+        "warning": "⚠️ stub 数据" if MODE == "stub" else "",
+        "tree": {
+            "name": company_name,
+            "children": [
+                {"name": "（stub）控股股东", "ratio": "70%", "children": []},
+                {"name": "（stub）员工持股平台", "ratio": "20%", "children": []},
+                {"name": "（stub）其他", "ratio": "10%", "children": []},
+            ],
+        },
+    }
+
+
+mcp = None
+if FASTMCP_OK:
+    mcp = FastMCP("samr")
+    mcp.tool()(search)
+    mcp.tool()(equity_penetration)
+
+
+def _main():
+    import sys, os
+    here = os.path.dirname(os.path.abspath(__file__))
+    common = os.path.normpath(os.path.join(here, "..", "_common"))
+    if "--selftest" in sys.argv:
+        sys.path.insert(0, os.path.dirname(common))
+        try:
+            from _common.selftest import run_selftest
+        except ImportError:
+            sys.path.insert(0, common)
+            from selftest import run_selftest
+        sys.exit(run_selftest(sys.modules[__name__], expected=["search", "equity_penetration"]))
+    if FASTMCP_OK and mcp is not None:
         mcp.run()
-else:
-    if __name__ == "__main__":
-        print("fastmcp not installed")
+    else:
+        print("fastmcp not installed; pip install fastmcp", file=sys.stderr)
+        sys.exit(2)
+
+
+if __name__ == "__main__":
+    _main()

@@ -126,7 +126,7 @@
 - `cnipa` — 商标 / 专利检索
 - 用户自配的私有数据库（北大法宝、威科先行、无讼等）
 
-MCP 配置在 `.claude/mcp.json`，server 实现在 `mcp-servers/`。
+MCP 配置在 `.mcp.json`，server 实现在 `mcp-servers/`。
 
 ---
 

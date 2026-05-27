@@ -6,7 +6,7 @@ cd "$ROOT"
 
 echo "▶ 检查核心文件"
 for f in README.md CLAUDE.md LICENSE DISCLAIMER.md .gitignore requirements.txt \
-         .claude/mcp.json \
+         .mcp.json \
          .claude/agents/task-router.md .claude/agents/aggregator.md \
          .claude/agents/doc-ops/document-master.md \
          .claude/agents/doc-ops/contract-redliner.md \
@@ -53,6 +53,21 @@ for d in .claude/skills/doc-ops/*/; do
     || { echo "  ✗ $d/script.py 语法错"; bad=$((bad+1)); }
 done
 [ "$bad" -eq 0 ] && echo "  ✓ 全部 26 个 doc-ops skill 完整"
+
+
+echo ""
+echo "▶ .mcp.json 格式 / schema 校验"
+python3 - <<JSONPY
+import json, sys, pathlib
+p = pathlib.Path(".mcp.json")
+data = json.loads(p.read_text(encoding="utf-8"))
+assert "mcpServers" in data, "缺 mcpServers"
+for name in ("statutes-rag","wenshu","samr","cnipa"):
+    assert name in data["mcpServers"], f"缺 {name}"
+    s = data["mcpServers"][name]
+    assert "command" in s and "args" in s, f"{name} 缺 command/args"
+print(f"  ✓ .mcp.json 含 {len(data['mcpServers'])} servers, schema OK")
+JSONPY
 
 echo ""
 echo "✅ 项目结构完整。"

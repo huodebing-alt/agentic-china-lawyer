@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 ## 启动
 
-由 Claude Code 在读取 `.claude/mcp.json` 时自动启动。也可手动：
+由 Claude Code 在读取 `.mcp.json` 时自动启动。也可手动：
 
 ```bash
 python -m mcp_servers.statutes_rag.server

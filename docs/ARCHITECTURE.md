@@ -71,7 +71,7 @@
 
 ## MCP 接入
 
-四个 MCP server 在 `mcp-servers/`，配置见 `.claude/mcp.json`：
+四个 MCP server 在 `mcp-servers/`，配置见 `.mcp.json`：
 
 - `statutes-rag` — 本地法规 RAG（首次运行需 `prepare-statutes.sh`）
 - `wenshu` — 裁判文书网（默认 stub）
