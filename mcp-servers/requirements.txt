@@ -1,0 +1,21 @@
+# MCP server 依赖
+fastmcp>=0.1.0
+pydantic>=2.0
+python-frontmatter>=1.0
+numpy>=1.24
+scikit-learn>=1.3
+markdown>=3.5
+
+# Doc-ops 依赖（被 .claude/skills/doc-ops/*/script.py 使用）
+python-docx>=1.0           # Word 文档读写
+docxcompose>=1.4           # docx 合并
+mammoth>=1.6               # docx → markdown / html
+pdfplumber>=0.10           # PDF 文本 / 表格抽取
+pypdf>=4.0                 # PDF 操作
+pdf2docx>=0.5              # PDF → Word
+pytesseract>=0.3           # OCR (备选)
+paddleocr>=2.7             # 中文 OCR (首选)
+diff-match-patch>=20230430 # redline 算法
+beautifulsoup4>=4.12       # HTML
+openpyxl>=3.1              # Excel
+pillow>=10.0               # 图像

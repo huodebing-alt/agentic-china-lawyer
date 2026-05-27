@@ -1,0 +1,24 @@
+{
+  "template_id": "lvshihan",
+  "title": "律师函",
+  "fields": [
+    {"name": "函字编号", "type": "string", "required": true},
+    {"name": "对方全称", "type": "string", "required": true},
+    {"name": "对方地址", "type": "string", "required": true},
+    {"name": "委托人全称", "type": "string", "required": true},
+    {"name": "事由", "type": "string", "required": true},
+    {"name": "适用法律", "type": "string", "required": true},
+    {"name": "适用条款", "type": "string", "required": true},
+    {"name": "诉求一", "type": "string", "required": true},
+    {"name": "诉求二", "type": "string", "required": false},
+    {"name": "期限天数", "type": "integer", "default": 15},
+    {"name": "期限事项", "type": "string", "required": true},
+    {"name": "逾期后果", "type": "string", "required": true},
+    {"name": "后续措施", "type": "string", "required": true},
+    {"name": "律师事务所名称", "type": "string", "required": true},
+    {"name": "经办律师", "type": "string", "required": true},
+    {"name": "执业证号", "type": "string", "required": true},
+    {"name": "函发日期", "type": "date", "required": true},
+    {"name": "附件清单", "type": "string", "required": false}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "template_id": "nda-cn",
+  "title": "中文保密协议",
+  "fields": [
+    {"name": "甲方全称", "type": "string", "required": true},
+    {"name": "乙方全称", "type": "string", "required": true},
+    {"name": "签订日期", "type": "date", "required": true},
+    {"name": "合作背景", "type": "string", "required": true},
+    {"name": "协议生效日", "type": "date", "required": true},
+    {"name": "保密期限年数", "type": "integer", "required": false, "default": 3},
+    {"name": "管辖机构", "type": "string", "required": true}
+  ]
+}
